@@ -1,8 +1,18 @@
 #!/usr/bin/python3
-import random
+"""
+Read stdin line by line and computes metrics
+Input format: <IP Address> - [<date>] "GET /projects/260 HTTP/1.1"
+<status code> <file size>, skip line if not this format
+After every 10minutes or keyboard interrupt (CTRL + C)
+print these from beginning: number of lines by status code
+possible status codes: 200, 301, 400, 401, 404, 405, and 500
+if status code isn't an integer, do not print it
+format: <status code>: <number>
+Status code must be printed in ascending order
+"""
 import sys
-from time import sleep
-import datetime
+
+
 def print_msg(codes, file_size):
     print("File size: {}".format(file_size))
     for key, val in sorted(codes.items()):
@@ -42,15 +52,6 @@ try:
             if (count_lines == 10):
                 print_msg(codes, file_size)
                 count_lines = 0
-for i in range(1000):
-    sleep(random.random())
-    sys.stdout.write("{:d}.{:d}.{:d}.{:d} - [{}] \"GET /projects/260 HTTP/1.1\" {} {}\n".format(
-        random.randint(1, 255), random.randint(1, 255), random.randint(1, 255), random.randint(1, 255),
-        datetime.datetime.now(),
-        random.choice([200, 301, 400, 401, 403, 404, 405, 500]),
-        random.randint(1, 1024)
-    ))
-    sys.stdout.flush()
 
 finally:
     print_msg(codes, file_size)
